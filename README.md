@@ -54,10 +54,12 @@ The performance of the Q-learning algorithm can be measured by counting the numb
 ![](Images/Q_learning_Tower_of_Hanoi_4_discs.png)  
 **Figure 7.** Performance of the Q-learning algorithm for the Tower of Hanoi game with, from top to bottom, 2, 3, and 4 disks. In all cases learning was performed with a discount factor of <a href="https://www.codecogs.com/eqnedit.php?latex=\gamma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\gamma" title="\gamma" /> </a> = 0.8 and a learning factor of <a href="https://www.codecogs.com/eqnedit.php?latex=\alpha" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\alpha" title="\alpha" /></a> = 1.0. The solid blue curve represents the average performance over 100 epochs of training and playing the game 100 times for each resulting stochastic policy. The upper and lower bounds of the shaded blue area are offset from the mean by the estimated standard deviation. (For `N` = 3 and `N` = 4, the number of training episodes and times to play were reduced to 10 and 10, respectively, due to computational constraints).
 
-An interesting feature of the learning characteristics in Figure 7 is that in all cases, learning is slow initially, and the agent hardly does better than the 'zero training' policy of choosing moves at random. At some point the learning reaches an 'inflection point' and then converges to the optimal number of moves at an accelerated pace (though this is somewhat exaggerated by the logarithmic scale).
+An interesting feature of the learning characteristics in Figure 7 is that in all cases, learning is slow initially, and the agent hardly does better than the 'zero training' policy of choosing moves at random. At some point the learning reaches an 'inflection point' and then converges to the optimal number of moves at an accelerated pace (although this is somewhat exaggerated by the logarithmic scale).
 
-## Conclusion and discussion
-A Python script successfully solves the Tower of Hanoi puzzle optimally for any number of disks by Q-learning. The number of training episodes required to converge to an optimal solution increases greatly with the number of disks `N`: for `N=2` disks it takes ~300 episodes, whereas for `N=4` it takes ~6,000. A possible improvement of the learning algorithm would be to allow it to automatically look for recursive solutions, as done by Hengst [3].
+## Conclusions and discussion
+A Python script successfully solves the Tower of Hanoi puzzle optimally for any number of disks by Q-learning. The script can be easily adapted to other problems with a different reward matrix `R`.
+
+The number of training episodes required to converge to an optimal solution increases greatly with the number of disks `N`: for `N=2` disks it takes ~300 episodes, whereas for `N=4` it takes ~6,000. A possible improvement of the learning algorithm would be to allow it to automatically look for recursive solutions, as done by Hengst [3].
 
 
 
