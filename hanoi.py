@@ -12,7 +12,7 @@ class TowersOfHanoi:
         self.discs = len(self.state)
 
     def discs_on_peg(self, peg):
-        return filter(lambda disc: self.state[disc] == peg, range(self.discs))
+        return [disc for disc in range(self.discs) if self.state[disc] == peg]
 
     def move_allowed(self, move):
         discs_from = self.discs_on_peg(move[0])
@@ -31,8 +31,8 @@ class TowersOfHanoi:
 
 # Generates the reward matrix for the Towers of Hanoi game as a Pandas DataFrame
 def generate_reward_matrix(N):      # N is the number of discs
-    states = list(itertools.product(range(3), repeat=N))
-    moves = list(itertools.permutations(range(3), 2))
+    states = list(itertools.product(list(range(3)), repeat=N))
+    moves = list(itertools.permutations(list(range(3)), 2))
     R = pd.DataFrame(index=states, columns=states, data=-np.inf)
     for state in states:
         tower = TowersOfHanoi(state=state)
@@ -46,7 +46,7 @@ def generate_reward_matrix(N):      # N is the number of discs
 
 def learn_Q(R, gamma=0.8, alpha=1.0, N_episodes=1000):
     Q = np.zeros(R.shape)
-    states=range(R.shape[0])
+    states=list(range(R.shape[0]))
     for n in range(N_episodes):
         Q_previous = Q
         state = np.random.choice(states)                # Randomly select initial state
@@ -106,7 +106,7 @@ def Q_performance_average(R, episodes, learn_times = 100, play_times=100):
     stds_averaged = np.mean(stds_times, axis = 0)
     return means_averaged, stds_averaged
 
-def plot_results(episodes, means_averaged, stds_averaged, N):
+def plot_results(episodes, means_averaged, stds_averaged, N, block=False):
     fig = plt.figure()
     plt.loglog(episodes, means_averaged,'b.-',label='Average performance')
     plt.loglog(episodes, means_averaged + stds_averaged, 'b', alpha=0.5)
@@ -120,7 +120,7 @@ def plot_results(episodes, means_averaged, stds_averaged, N):
     plt.title('Q-learning the Towers of Hanoi game with %s discs' % N)
     handles, labels = plt.gca().get_legend_handles_labels()
     plt.legend(handles, labels)
-    plt.show(block=False)
+    plt.show(block=block)
 
 
 N = 2                                   # Number of discs in the Towers of Hanoi game
@@ -139,4 +139,4 @@ N = 4                                   # Number of discs in the Towers of Hanoi
 R = generate_reward_matrix(N)
 episodes = [1, 10, 100, 200, 300, 1000, 2000, 3000, 6000, 10000, 30000, 60000]
 means_averaged, stds_averaged = Q_performance_average(R, episodes, learn_times=10, play_times=10)
-plot_results(episodes, means_averaged, stds_averaged, N)
+plot_results(episodes, means_averaged, stds_averaged, N, block=True)
